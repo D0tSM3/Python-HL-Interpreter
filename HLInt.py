@@ -86,6 +86,7 @@ class Lexer:
         self.text = text       # the full source (spaces already removed)
         self.pos = 0           # current position in text
         self.tokens = []       # accumulated tokens
+        self.has_error = False  # set to True if an unknown character is found
 
     def peek(self):
         """Look at the current character without consuming it."""
@@ -183,8 +184,8 @@ class Lexer:
                 self.tokens.append((TOKEN_OPERATOR, "-"))
 
             else:
-                # Unrecognized character — skip it
-                # (spaces were already removed, so this catches tabs, etc.)
+                # Unrecognized character — flag a lexical error
+                self.has_error = True
                 self.advance()
 
         self.tokens.append((TOKEN_EOF, ""))
@@ -232,6 +233,9 @@ class Lexer:
 
         if self.pos < len(self.text) and self.text[self.pos] == '"':
             self.advance()  # consume closing "
+        else:
+            # Missing closing quote — flag a lexical error
+            self.has_error = True
 
         self.tokens.append((TOKEN_STRING_LIT, value))
 
@@ -677,18 +681,16 @@ class Interpreter:
             self.variables[node.name] = {"type": "double", "value": float(value)}
 
     def exec_output(self, node):
-        """Execute an output statement."""
+        """Execute an output statement with type-aware formatting.
+        If any operand in the expression is a double, the result is
+        formatted with 2 decimal places; otherwise it prints as an integer."""
         if isinstance(node.value, StringNode):
             print(node.value.value)
         else:
             result = self.evaluate(node.value)
-            # Format output: integers as whole numbers, doubles with 2 decimal places
-            if isinstance(result, float) and not result.is_integer():
-                print(f"{result:.2f}")
-            elif isinstance(result, float):
-                # A float that happens to be whole (e.g. 4.0) — still show as double
-                # if any operand was a double
-                print(f"{result:.2f}")
+            has_double = _expr_has_double(node.value, self.variables)
+            if has_double:
+                print(f"{float(result):.2f}")
             else:
                 print(int(result))
 
@@ -795,29 +797,11 @@ def main():
     ast = parser.parse_program()
 
     # --- Step 7: Report result and interpret if valid ---
-    if parser.has_error:
+    if lexer.has_error or parser.has_error:
         print("ERROR")
     else:
         print("NO ERROR(S) FOUND")
-        # Patch the output to use proper formatting
-        # (override the simple exec_output with type-aware formatting)
         interpreter = Interpreter(ast)
-
-        # Override exec_output to use type-aware formatting
-        original_exec_output = interpreter.exec_output
-
-        def smart_exec_output(node):
-            if isinstance(node.value, StringNode):
-                print(node.value.value)
-            else:
-                result = interpreter.evaluate(node.value)
-                has_double = _expr_has_double(node.value, interpreter.variables)
-                if has_double:
-                    print(f"{float(result):.2f}")
-                else:
-                    print(int(result))
-
-        interpreter.exec_output = smart_exec_output
         interpreter.run()
 
 
