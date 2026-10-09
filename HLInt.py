@@ -28,7 +28,7 @@ import sys
 # and PROCEDURE 5 (Group 7) - syntax analysis.
 # Token types:
 TOKEN_KEYWORD    = "KEYWORD"       # integer, double, output, if
-TOKEN_IDENTIFIER = "IDENTIFIER"    # single lowercase letter (a-z)
+TOKEN_IDENTIFIER = "IDENTIFIER"    # alphabetic identifiers, including multiple characters
 TOKEN_INT_LIT    = "INT_LITERAL"   # e.g. 5, 3, 42
 TOKEN_DOUBLE_LIT = "DOUBLE_LITERAL"# e.g. 2.35, 1.25
 TOKEN_STRING_LIT = "STRING_LITERAL"# e.g. "hello"
