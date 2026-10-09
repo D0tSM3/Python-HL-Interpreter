@@ -1,16 +1,17 @@
 """
-Name: Castillo, Carl Rohan
+Group 7
+Names: Carl Rohan Castillo, Kalani Phoenix Guinto, Joven Terence Cantalejo
 Course and Section: CSS125L - AM3
 Procedures: Simple HL Language Interpreter (HLInt)
 
 Start
-    PROCEDURE 1 (Castillo): Read the .HL source file.
-    PROCEDURE 2 (Castillo): Remove spaces and write NOSPACES.TXT.
-    PROCEDURE 3 (Castillo): Perform lexical analysis (tokenize the source).
-    PROCEDURE 4 (Castillo): Write reserved words and symbols to RES_SYM.TXT.
-    PROCEDURE 5 (Castillo): Perform syntax analysis (parse tokens into AST).
-    PROCEDURE 6 (Castillo): Interpret and execute the AST if no errors.
-    PROCEDURE 7 (Castillo): Report ERROR or NO ERROR(S) FOUND.
+    PROCEDURE 1 (Group 7): Read the .HL source file.
+    PROCEDURE 2 (Group 7): Remove spaces and write NOSPACES.TXT.
+    PROCEDURE 3 (Group 7): Perform lexical analysis (tokenize the source).
+    PROCEDURE 4 (Group 7): Write reserved words and symbols to RES_SYM.TXT.
+    PROCEDURE 5 (Group 7): Perform syntax analysis (parse tokens into AST).
+    PROCEDURE 6 (Group 7): Interpret and execute the AST if no errors.
+    PROCEDURE 7 (Group 7): Report ERROR or NO ERROR(S) FOUND.
 End
 """
 
@@ -22,9 +23,9 @@ import sys
 # ============================================================
 
 # Each token is a tuple: (token_type, value).
-# Used across PROCEDURE 3 (Castillo) - lexical analysis,
-# PROCEDURE 4 (Castillo) - RES_SYM.TXT output,
-# and PROCEDURE 5 (Castillo) - syntax analysis.
+# Used across PROCEDURE 3 (Group 7) - lexical analysis,
+# PROCEDURE 4 (Group 7) - RES_SYM.TXT output,
+# and PROCEDURE 5 (Group 7) - syntax analysis.
 # Token types:
 TOKEN_KEYWORD    = "KEYWORD"       # integer, double, output, if
 TOKEN_IDENTIFIER = "IDENTIFIER"    # single lowercase letter (a-z)
@@ -41,11 +42,11 @@ KEYWORDS = {"integer", "double", "output", "if"}
 
 
 # ============================================================
-# PROCEDURES 1 & 2 (Castillo): FILE READING AND SPACE REMOVAL
+# PROCEDURES 1 & 2 (Group 7): FILE READING AND SPACE REMOVAL
 # ============================================================
 
 # Reads the .HL source file and returns its content as a list of lines.
-# Called during PROCEDURE 1 (Castillo) - see main().
+# Called during PROCEDURE 1 (Group 7) - see main().
 def read_source(filename):
     """Read the .HL source file and return its content as a list of lines."""
     try:
@@ -57,7 +58,7 @@ def read_source(filename):
 
 
 # Removes all space characters from each line, preserving newlines.
-# Called during PROCEDURE 2 (Castillo) - see main().
+# Called during PROCEDURE 2 (Group 7) - see main().
 def remove_spaces(lines):
     """Remove all space characters from each line, preserving newlines.
     Returns a list of cleaned lines (without trailing newline characters)."""
@@ -70,7 +71,7 @@ def remove_spaces(lines):
 
 
 # Writes the space-removed source to NOSPACES.TXT.
-# Called during PROCEDURE 2 (Castillo) - see main().
+# Called during PROCEDURE 2 (Group 7) - see main().
 def write_nospaces(cleaned_lines, filename="NOSPACES.TXT"):
     """Write the space-removed source to NOSPACES.TXT."""
     with open(filename, "w") as f:
@@ -80,12 +81,12 @@ def write_nospaces(cleaned_lines, filename="NOSPACES.TXT"):
 
 
 # ============================================================
-# PROCEDURE 3 (Castillo): LEXER (LEXICAL ANALYSIS)
+# PROCEDURE 3 (Group 7): LEXER (LEXICAL ANALYSIS)
 # ============================================================
 
 # Character-by-character scanner that produces a list of tokens
 # from the space-removed source text.
-# Called during PROCEDURE 3 (Castillo) - see main().
+# Called during PROCEDURE 3 (Group 7) - see main().
 class Lexer:
     """Character-by-character scanner that produces a list of tokens
     from the space-removed source text.
@@ -255,7 +256,7 @@ class Lexer:
 
 
 # Writes reserved words and symbols/operators to RES_SYM.TXT.
-# Called during PROCEDURE 4 (Castillo) - see main().
+# Called during PROCEDURE 4 (Group 7) - see main().
 def write_res_sym(tokens, filename="RES_SYM.TXT"):
     """Write reserved words and symbols/operators to RES_SYM.TXT.
     Excludes identifiers, literals, and EOF."""
@@ -268,8 +269,8 @@ def write_res_sym(tokens, filename="RES_SYM.TXT"):
 # ============================================================
 # AST NODE DEFINITIONS
 # ============================================================
-# Data structures that connect PROCEDURE 5 (Castillo) - syntax analysis
-# to PROCEDURE 6 (Castillo) - interpretation.
+# Data structures that connect PROCEDURE 5 (Group 7) - syntax analysis
+# to PROCEDURE 6 (Group 7) - interpretation.
 # The parser produces these nodes. The interpreter walks them.
 
 class DeclarationNode:
@@ -372,13 +373,13 @@ class StringNode:
 
 
 # ============================================================
-# PROCEDURE 5 (Castillo): PARSER (SYNTAX ANALYSIS) — Tokens → AST
+# PROCEDURE 5 (Group 7): PARSER (SYNTAX ANALYSIS) — Tokens → AST
 # ============================================================
 
 # Recursive-descent parser that reads the token list and produces
 # an AST (list of statement nodes). Sets has_error = True if any
 # syntax error is found.
-# Called during PROCEDURE 5 (Castillo) - see main().
+# Called during PROCEDURE 5 (Group 7) - see main().
 class Parser:
     """Recursive-descent parser that reads the token list and produces
     an AST (list of statement nodes). Sets has_error = True if any
@@ -633,13 +634,13 @@ class Parser:
 
 
 # ============================================================
-# PROCEDURE 6 (Castillo): INTERPRETER (AST → Execution)
+# PROCEDURE 6 (Group 7): INTERPRETER (AST → Execution)
 # ============================================================
 
 # Executes the AST produced by the parser.
 # Maintains a variable environment (dictionary) that stores
 # each variable's declared type and current value.
-# Called during PROCEDURE 6 (Castillo) - see main().
+# Called during PROCEDURE 6 (Group 7) - see main().
 class Interpreter:
     """Executes the AST produced by the parser.
 
@@ -769,7 +770,7 @@ class Interpreter:
 # ============================================================
 
 # Determines if a result should be displayed as integer or double.
-# Helper called during PROCEDURE 6 (Castillo) - interpretation.
+# Helper called during PROCEDURE 6 (Group 7) - interpretation.
 def format_output(value, variables, expr_node):
     """Determine if a result should be displayed as integer or double.
     If any operand in the expression is a double, the result is double."""
@@ -781,7 +782,7 @@ def format_output(value, variables, expr_node):
 
 
 # Recursively checks if any part of an expression involves a double.
-# Helper called during PROCEDURE 6 (Castillo) - interpretation.
+# Helper called during PROCEDURE 6 (Group 7) - interpretation.
 def _expr_has_double(node, variables):
     """Recursively check if any part of an expression involves a double."""
     if isinstance(node, NumberNode):
@@ -800,39 +801,39 @@ def _expr_has_double(node, variables):
 # MAIN — Tie all procedures together
 # ============================================================
 
-# Orchestrates PROCEDURES 1–7 (Castillo) in sequence:
+# Orchestrates PROCEDURES 1–7 (Group 7) in sequence:
 # read source → remove spaces → tokenize → write RES_SYM.TXT →
 # parse → report status → interpret if valid.
 def main():
-    # PROCEDURE 1 (Castillo): Read the .HL source file.
+    # PROCEDURE 1 (Group 7): Read the .HL source file.
     if len(sys.argv) > 1:
         filename = sys.argv[1]
     else:
         filename = input("Enter source file name: ")
     lines = read_source(filename)
 
-    # PROCEDURE 2 (Castillo): Remove spaces and write NOSPACES.TXT.
+    # PROCEDURE 2 (Group 7): Remove spaces and write NOSPACES.TXT.
     cleaned_lines = remove_spaces(lines)
     write_nospaces(cleaned_lines)
 
-    # PROCEDURE 3 (Castillo): Perform lexical analysis (tokenize the source).
+    # PROCEDURE 3 (Group 7): Perform lexical analysis (tokenize the source).
     source_text = "\n".join(cleaned_lines)
     lexer = Lexer(source_text)
     tokens = lexer.tokenize()
 
-    # PROCEDURE 4 (Castillo): Write reserved words and symbols to RES_SYM.TXT.
+    # PROCEDURE 4 (Group 7): Write reserved words and symbols to RES_SYM.TXT.
     write_res_sym(tokens)
 
-    # PROCEDURE 5 (Castillo): Perform syntax analysis (parse tokens into AST).
+    # PROCEDURE 5 (Group 7): Perform syntax analysis (parse tokens into AST).
     parser = Parser(tokens)
     ast = parser.parse_program()
 
-    # PROCEDURE 7 (Castillo): Report ERROR or NO ERROR(S) FOUND.
+    # PROCEDURE 7 (Group 7): Report ERROR or NO ERROR(S) FOUND.
     if lexer.has_error or parser.has_error:
         print("ERROR")
     else:
         print("NO ERROR(S) FOUND")
-        # PROCEDURE 6 (Castillo): Interpret and execute the AST if no errors.
+        # PROCEDURE 6 (Group 7): Interpret and execute the AST if no errors.
         interpreter = Interpreter(ast)
         interpreter.run()
 
