@@ -1,7 +1,7 @@
 """
 Group 7
 Names: Carl Rohan Castillo, Kalani Phoenix Guinto, Joven Terence Cantalejo
-Course and Section: CSS125L - AM3
+Course and Section: CSS125P - AM3
 Procedures: Simple HL Language Interpreter (HLInt)
 
 Start
