@@ -1,15 +1,17 @@
 """
-HLInt.py — A Simple Interpreter for the HL Language
-CSS125L Project
+Name: Castillo, Carl Rohan
+Course and Section: CSS125L - AM3
+Procedures: Simple HL Language Interpreter (HLInt)
 
-Processing pipeline:
-  1. Read source file (.HL)
-  2. Remove spaces → write NOSPACES.TXT
-  3. Lexical analysis (tokenize)
-  4. Write reserved words/symbols → RES_SYM.TXT
-  5. Syntax analysis (parse tokens → AST)
-  6. If no syntax errors: interpret (execute the AST)
-  7. Print ERROR or NO ERROR(S) FOUND
+Start
+    PROCEDURE 1 (Castillo): Read the .HL source file.
+    PROCEDURE 2 (Castillo): Remove spaces and write NOSPACES.TXT.
+    PROCEDURE 3 (Castillo): Perform lexical analysis (tokenize the source).
+    PROCEDURE 4 (Castillo): Write reserved words and symbols to RES_SYM.TXT.
+    PROCEDURE 5 (Castillo): Perform syntax analysis (parse tokens into AST).
+    PROCEDURE 6 (Castillo): Interpret and execute the AST if no errors.
+    PROCEDURE 7 (Castillo): Report ERROR or NO ERROR(S) FOUND.
+End
 """
 
 import sys
@@ -19,7 +21,10 @@ import sys
 # TOKEN TYPES
 # ============================================================
 
-# Each token is a tuple: (token_type, value)
+# Each token is a tuple: (token_type, value).
+# Used across PROCEDURE 3 (Castillo) - lexical analysis,
+# PROCEDURE 4 (Castillo) - RES_SYM.TXT output,
+# and PROCEDURE 5 (Castillo) - syntax analysis.
 # Token types:
 TOKEN_KEYWORD    = "KEYWORD"       # integer, double, output, if
 TOKEN_IDENTIFIER = "IDENTIFIER"    # single lowercase letter (a-z)
@@ -36,9 +41,11 @@ KEYWORDS = {"integer", "double", "output", "if"}
 
 
 # ============================================================
-# PHASE 1: FILE READING AND SPACE REMOVAL
+# PROCEDURES 1 & 2 (Castillo): FILE READING AND SPACE REMOVAL
 # ============================================================
 
+# Reads the .HL source file and returns its content as a list of lines.
+# Called during PROCEDURE 1 (Castillo) - see main().
 def read_source(filename):
     """Read the .HL source file and return its content as a list of lines."""
     try:
@@ -49,6 +56,8 @@ def read_source(filename):
         sys.exit(1)
 
 
+# Removes all space characters from each line, preserving newlines.
+# Called during PROCEDURE 2 (Castillo) - see main().
 def remove_spaces(lines):
     """Remove all space characters from each line, preserving newlines.
     Returns a list of cleaned lines (without trailing newline characters)."""
@@ -60,6 +69,8 @@ def remove_spaces(lines):
     return cleaned
 
 
+# Writes the space-removed source to NOSPACES.TXT.
+# Called during PROCEDURE 2 (Castillo) - see main().
 def write_nospaces(cleaned_lines, filename="NOSPACES.TXT"):
     """Write the space-removed source to NOSPACES.TXT."""
     with open(filename, "w") as f:
@@ -69,9 +80,12 @@ def write_nospaces(cleaned_lines, filename="NOSPACES.TXT"):
 
 
 # ============================================================
-# PHASE 2: LEXER (LEXICAL ANALYSIS)
+# PROCEDURE 3 (Castillo): LEXER (LEXICAL ANALYSIS)
 # ============================================================
 
+# Character-by-character scanner that produces a list of tokens
+# from the space-removed source text.
+# Called during PROCEDURE 3 (Castillo) - see main().
 class Lexer:
     """Character-by-character scanner that produces a list of tokens
     from the space-removed source text.
@@ -240,6 +254,8 @@ class Lexer:
         self.tokens.append((TOKEN_STRING_LIT, value))
 
 
+# Writes reserved words and symbols/operators to RES_SYM.TXT.
+# Called during PROCEDURE 4 (Castillo) - see main().
 def write_res_sym(tokens, filename="RES_SYM.TXT"):
     """Write reserved words and symbols/operators to RES_SYM.TXT.
     Excludes identifiers, literals, and EOF."""
@@ -252,6 +268,8 @@ def write_res_sym(tokens, filename="RES_SYM.TXT"):
 # ============================================================
 # AST NODE DEFINITIONS
 # ============================================================
+# Data structures that connect PROCEDURE 5 (Castillo) - syntax analysis
+# to PROCEDURE 6 (Castillo) - interpretation.
 # The parser produces these nodes. The interpreter walks them.
 
 class DeclarationNode:
@@ -354,9 +372,13 @@ class StringNode:
 
 
 # ============================================================
-# PHASE 3: PARSER (SYNTAX ANALYSIS) — Tokens → AST
+# PROCEDURE 5 (Castillo): PARSER (SYNTAX ANALYSIS) — Tokens → AST
 # ============================================================
 
+# Recursive-descent parser that reads the token list and produces
+# an AST (list of statement nodes). Sets has_error = True if any
+# syntax error is found.
+# Called during PROCEDURE 5 (Castillo) - see main().
 class Parser:
     """Recursive-descent parser that reads the token list and produces
     an AST (list of statement nodes). Sets has_error = True if any
@@ -611,9 +633,13 @@ class Parser:
 
 
 # ============================================================
-# PHASE 4: INTERPRETER (AST → Execution)
+# PROCEDURE 6 (Castillo): INTERPRETER (AST → Execution)
 # ============================================================
 
+# Executes the AST produced by the parser.
+# Maintains a variable environment (dictionary) that stores
+# each variable's declared type and current value.
+# Called during PROCEDURE 6 (Castillo) - see main().
 class Interpreter:
     """Executes the AST produced by the parser.
 
@@ -739,9 +765,11 @@ class Interpreter:
 
 
 # ============================================================
-# PHASE 5: OUTPUT FORMATTING
+# OUTPUT FORMATTING HELPERS
 # ============================================================
 
+# Determines if a result should be displayed as integer or double.
+# Helper called during PROCEDURE 6 (Castillo) - interpretation.
 def format_output(value, variables, expr_node):
     """Determine if a result should be displayed as integer or double.
     If any operand in the expression is a double, the result is double."""
@@ -752,6 +780,8 @@ def format_output(value, variables, expr_node):
         return str(int(value))
 
 
+# Recursively checks if any part of an expression involves a double.
+# Helper called during PROCEDURE 6 (Castillo) - interpretation.
 def _expr_has_double(node, variables):
     """Recursively check if any part of an expression involves a double."""
     if isinstance(node, NumberNode):
@@ -767,40 +797,42 @@ def _expr_has_double(node, variables):
 
 
 # ============================================================
-# MAIN — Tie everything together
+# MAIN — Tie all procedures together
 # ============================================================
 
+# Orchestrates PROCEDURES 1–7 (Castillo) in sequence:
+# read source → remove spaces → tokenize → write RES_SYM.TXT →
+# parse → report status → interpret if valid.
 def main():
-    # --- Step 1: Get the source file ---
+    # PROCEDURE 1 (Castillo): Read the .HL source file.
     if len(sys.argv) > 1:
         filename = sys.argv[1]
     else:
         filename = input("Enter source file name: ")
-
-    # --- Step 2: Read source ---
     lines = read_source(filename)
 
-    # --- Step 3: Remove spaces and write NOSPACES.TXT ---
+    # PROCEDURE 2 (Castillo): Remove spaces and write NOSPACES.TXT.
     cleaned_lines = remove_spaces(lines)
     write_nospaces(cleaned_lines)
 
-    # --- Step 4: Tokenize the cleaned source ---
+    # PROCEDURE 3 (Castillo): Perform lexical analysis (tokenize the source).
     source_text = "\n".join(cleaned_lines)
     lexer = Lexer(source_text)
     tokens = lexer.tokenize()
 
-    # --- Step 5: Write reserved words and symbols to RES_SYM.TXT ---
+    # PROCEDURE 4 (Castillo): Write reserved words and symbols to RES_SYM.TXT.
     write_res_sym(tokens)
 
-    # --- Step 6: Parse (syntax check) and build AST ---
+    # PROCEDURE 5 (Castillo): Perform syntax analysis (parse tokens into AST).
     parser = Parser(tokens)
     ast = parser.parse_program()
 
-    # --- Step 7: Report result and interpret if valid ---
+    # PROCEDURE 7 (Castillo): Report ERROR or NO ERROR(S) FOUND.
     if lexer.has_error or parser.has_error:
         print("ERROR")
     else:
         print("NO ERROR(S) FOUND")
+        # PROCEDURE 6 (Castillo): Interpret and execute the AST if no errors.
         interpreter = Interpreter(ast)
         interpreter.run()
 
